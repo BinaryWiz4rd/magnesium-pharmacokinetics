@@ -2,6 +2,8 @@
 
 A beautifully designed, interactive Python tool for simulating magnesium concentration-time profiles using a one-compartment model with first-order kinetics. 
 
+<img width="1908" height="858" alt="obraz" src="https://github.com/user-attachments/assets/fba76075-a898-41ec-95de-5d29e82f3755" />
+
 This project computes systemic magnesium levels over time based on literature-derived pharmacokinetic (PK) parameters, accounting for baseline endogenous magnesium concentrations. It features a fully interactive web dashboard built with Streamlit, allowing users to adjust patient parameters and dosing regimens in real-time.
 
 ### Key Features
