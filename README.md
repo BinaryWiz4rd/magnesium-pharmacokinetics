@@ -1,92 +1,72 @@
-# Magnesium PK Simulator
+# 🧸 Magnesium PK Simulator 🧸
 
-A modular Python tool for simulating magnesium concentration-time profiles using a **one-compartment model** with **first-order kinetics**.
+A beautifully designed, interactive Python tool for simulating magnesium concentration-time profiles using a one-compartment model with first-order kinetics. 
 
-This project computes systemic magnesium levels over time based on literature-derived pharmacokinetic (PK) parameters, accounting for baseline endogenous magnesium concentrations. 
+This project computes systemic magnesium levels over time based on literature-derived pharmacokinetic (PK) parameters, accounting for baseline endogenous magnesium concentrations. It features a fully interactive web dashboard built with Streamlit, allowing users to adjust patient parameters and dosing regimens in real-time.
 
-## Supported Models
-* **Intravenous (IV):** * **Bolus:** Instantaneous distribution.
-  * **Infusion:** Constant rate infusion over a specified duration (default: 4 hours).
-* **Oral:** First-order absorption modeling comparing different formulations:
-  * **Magnesium Citrate:** Higher bioavailability (F = 0.31, ka = 0.90 h⁻¹).
-  * **Magnesium Oxide:** Lower bioavailability (F = 0.055, ka = 0.35 h⁻¹).
+### Key Features
+* **Interactive Dashboard**: Real-time sliders for Body Weight, Elimination Half-Life, IV Dosing, and Oral Dosing.
+* **Instant Visualizations**: Dynamic concentration-time curves mapping drug levels against the therapeutic window (0.85 - 1.10 mmol/L).
+* **Automated PK Metrics**: Instantly calculates Cmax, Tmax, and AUC for all administration routes.
+* **Clinical Insights**: Generates quick clinical takeaways based on the simulated curves.
+
+##  Supported Models
+* **Intravenous (IV)**: 
+  * **Bolus**: Instantaneous distribution.
+  * **Infusion**: Constant rate infusion over a dynamically adjustable duration.
+* **Oral**: First-order absorption modeling comparing different formulations:
+  * **Magnesium Citrate**: Higher bioavailability (Default F = 0.31, ka = 0.90 h⁻¹).
+  * **Magnesium Oxide**: Lower bioavailability (Default F = 0.055, ka = 0.35 h⁻¹).
 
 ## Project Structure
-The repository is structured to separate configuration, mathematical models, and future analysis/reporting features.
+The repository is structured to separate configuration, mathematical models, and the interactive frontend.
 
-```text
-Pharmacokinetics/
-├── .venv/                      # Virtual environment (recommended)
-├── mg_pk_model/                # Core simulation package
-│   ├── core/                   # Parameters and state configuration
-│   │   ├── __init__.py
-│   │   ├── constants.py        # Literature values & patient assumptions
-│   │   └── derived.py          # Derived PK values (Kel, Vd, CL, Doses in mmol)
-│   ├── metrics/                # (WIP) PK metrics calculation (Cmax, AUC, Tmax)
-│   ├── models/                 # Mathematical PK equations
-│   │   ├── iv.py               # IV bolus and infusion math
-│   │   └── oral.py             # Oral absorption math
-│   ├── reporting/              # (WIP) Exporting results to CSV/PDF
-│   ├── utils/                  # (WIP) Helper functions
-│   ├── visualization/          # (WIP) Matplotlib/Plotly plotting scripts
-│   └── main.py                 # Simulation runner and CLI entry point
-├── mg_real_analysis/           # (WIP) Scripts for analyzing real-world/clinical data
-├── .gitignore                  
-└── README.md                   
-```
+    Pharmacokinetics/
+    ├── .venv/                      # Virtual environment (recommended)
+    ├── mg_pk_model/                # Core simulation package
+    │   ├── core/                   # Parameters and state configuration
+    │   │   ├── __init__.py
+    │   │   ├── constants.py        # Literature values & patient assumptions
+    │   │   └── derived.py          # Derived PK values (Kel, Vd, CL, Doses in mmol)
+    │   ├── metrics/                # PK metrics calculations (Cmax, AUC, Tmax)
+    │   ├── models/                 # Mathematical PK equations
+    │   │   ├── iv.py               # IV bolus and infusion math
+    │   │   └── oral.py             # Oral absorption math
+    │   ├── visualization/          # Matplotlib plotting scripts
+    │   ├── main.py                 # Static CLI simulation runner 
+    │   └── dashboard.py            # INTERACTIVE STREAMLIT WEB APP
+    ├── mg_real_analysis/           # (WIP) Scripts for analyzing real-world/clinical data
+    ├── .gitignore                  
+    └── README.md                   
 
 ## Requirements
-This project requires **Python 3.x** and relies on `numpy` for efficient array-based time-series calculations.
+This project requires Python 3.8+ and relies on NumPy (>= 2.0.0), Matplotlib, and Streamlit. 
 
-Install the required dependency via pip:
-```bash
-pip install numpy
-```
+Install the required dependencies via pip:
+
+    pip install numpy matplotlib streamlit
+
+*(Note: NumPy 2.0+ is required for the np.trapezoid function used in AUC calculations).*
 
 ## How to Run It
 
-To execute the default 24-hour simulation for IV Bolus, IV Infusion, and Oral (Magnesium Citrate) administration, run the main script from the root directory:
+**Option 1: The Interactive Web Dashboard (Recommended)**
+To launch the interactive GUI with sliders, real-time graphs, and metric calculation, navigate to the mg_pk_model folder and run:
 
-```bash
-python mg_pk_model/main.py
-```
+    streamlit run mg_pk_model/dashboard.py
 
-### Expected Output
-The script will output a text-based report to your console, detailing the early time-series data and key pharmacokinetic interpretations:
+This will open a local web server (usually at http://localhost:8501) in your default web browser.
 
-```text
-============================================================
-  MAGNESIUM PK SIMULATION
-============================================================
+**Option 2: The Static CLI Script**
+If you prefer to run a standard static simulation that outputs metrics to the console and saves a .png plot, run:
 
-Simulating concentration–time profiles...
-Time range: 0.0 → 24.0 hours (100 points)
-
-------------------------------------------------------------
-IV BOLUS (instant injection)
-First 5 values: [1.43724391 1.42436853 1.41177699 1.39946467 1.38742709]
-...
-
-============================================================
-INTERPRETATION
-============================================================
-IV bolus starts at high concentration: 1.437 mmol/L
-Oral starts at baseline:              0.850 mmol/L
-Oral peak occurs at ~3.15 hours
-Oral peak concentration: 0.975 mmol/L
-
-conclusionss:
-- IV administration produces immediate systemic exposure
-- Oral administration shows delayed absorption (Tmax > 0)
-- Model behavior matches expected one-compartment PK
-```
+    python main.py
 
 ## Under the Hood: Key Parameters & Assumptions
-The model runs on default assumptions defined in `core/constants.py`, which can be easily modified for different patient profiles:
+The math engine runs on default literature constants defined in core/constants.py, but you can easily modify these dynamically using the dashboard sliders:
 
-* **Patient Weight:** 70 kg
+* **Patient Weight:** 40 - 120 kg (Default: 70 kg)
 * **Baseline Mg Concentration:** 0.85 mmol/L
 * **Volume of Distribution (Vd):** 0.50 L/kg
-* **Elimination Half-life (t½):** 30.0 hours
-* **Default Doses:** 300 mg elemental Mg (Oral), 500 mg elemental Mg (IV)
-* *Note: All doses are automatically converted to mmol inside `derived.py` using the molecular weight of Magnesium (24.305 g/mol).*
+* **Elimination Half-life (t½):** 10 - 50 hours (Default: 30 hours)
+* **Doses:** Fully adjustable via sliders (converted automatically to mmol using the MW of Mg: 24.305 g/mol).
