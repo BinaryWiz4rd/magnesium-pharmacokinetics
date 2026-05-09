@@ -9,7 +9,7 @@ def calculate_pk_metrics(t: np.ndarray, cp: np.ndarray) -> dict:
     tmax = t[tmax_idx]
 
     # Area Under the Curve (AUC) using the trapezoidal rule
-    auc = np.trapz(cp, t)
+    auc = np.trapezoid(cp, t)
 
     return {
         "Cmax": cmax,

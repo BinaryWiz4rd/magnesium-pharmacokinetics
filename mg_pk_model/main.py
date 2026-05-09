@@ -1,55 +1,56 @@
 import numpy as np
 
-from core import F_CIT, KA_CIT
+from core.derived import F_CIT, KA_CIT, F_OX, KA_OX
+from core.constants import LITERATURE_CONSTANTS
 from models.iv import cp_iv_bolus, cp_iv_infusion
 from models.oral import cp_oral
+from metrics.calculate import calculate_pk_metrics, time_to_therapeutic
+from visualization.plots import plot_pk_profiles
 
 
 def main():
-    print("\n" + "=" * 60)
-    print("  MAGNESIUM PK SIMULATION")
-    print("=" * 60)
+    print("MAGNESIUM PK SIMULATION: ORAL VS IV")
 
-    # time grid (0–24 h)
-    t = np.linspace(0, 24, 100)
+    # time grid (0–48 h) to capture full elimination phase
+    t = np.linspace(0, 48, 500)
 
-    print("\nSimulating concentration–time profiles...")
-    print(f"Time range: {t[0]} → {t[-1]} hours ({len(t)} points)")
+    print(f"\nSimulating concentration–time profiles over {t[-1]} hours...")
 
-    # simulations
     c_iv_bolus = cp_iv_bolus(t)
-    c_iv_inf   = cp_iv_infusion(t)
-    c_oral     = cp_oral(t, F_CIT, KA_CIT)
+    c_iv_inf = cp_iv_infusion(t)
+    c_oral_cit = cp_oral(t, F_CIT, KA_CIT)
+    c_oral_ox = cp_oral(t, F_OX, KA_OX)
 
-    print("\n" + "-" * 60)
-    print("IV BOLUS (instant injection)")
-    print(f"First 5 values: {c_iv_bolus[:5]}")
+    thresh_low = LITERATURE_CONSTANTS["C_therapeutic_low (mmol/L)"]
 
-    print("\n" + "-" * 60)
-    print("IV INFUSION (constant rate over time)")
-    print(f"First 5 values: {c_iv_inf[:5]}")
+    scenarios = {
+        "IV Bolus": c_iv_bolus,
+        "IV Infusion": c_iv_inf,
+        "Oral (Citrate)": c_oral_cit,
+        "Oral (Oxide)": c_oral_ox
+    }
 
-    print("\n" + "-" * 60)
-    print("ORAL (Mg Citrate)")
-    print(f"First 5 values: {c_oral[:5]}")
+    print("\nPHARMACOKINETIC METRICS & THERAPEUTIC WINDOW")
 
-    print("\n" + "=" * 60)
-    print("INTERPRETATION")
-    print("=" * 60)
+    for name, cp in scenarios.items():
+        metrics = calculate_pk_metrics(t, cp)
+        t_thera = time_to_therapeutic(t, cp, thresh_low)
 
-    print(f"IV bolus starts at high concentration: {c_iv_bolus[0]:.3f} mmol/L")
-    print(f"Oral starts at baseline:              {c_oral[0]:.3f} mmol/L")
+        t_thera_str = f"{t_thera:.2f} hrs" if t_thera is not None else "Never reached"
 
-    tmax_idx = np.argmax(c_oral)
-    print(f"Oral peak occurs at ~{t[tmax_idx]:.2f} hours")
-    print(f"Oral peak concentration: {c_oral[tmax_idx]:.3f} mmol/L")
+        print(f"\n{name}:")
+        print(f"  - Cmax: {metrics['Cmax']:.3f} mmol/L")
+        print(f"  - Tmax: {metrics['Tmax']:.2f} hrs")
+        print(f"  - AUC:  {metrics['AUC']:.2f} mmol*h/L")
+        print(f"  - Time to Therapeutic (>={thresh_low}): {t_thera_str}")
 
-    print("\nconclusionss:")
-    print("- IV administration produces immediate systemic exposure")
-    print("- Oral administration shows delayed absorption (Tmax > 0)")
-    print("- Model behavior matches expected one-compartment PK")
+    plot_pk_profiles(t, c_iv_bolus, c_iv_inf, c_oral_cit, c_oral_ox)
 
-    print("\n" + "=" * 60 + "\n")
+    print("\nCLINICAL INTERPRETATION")
+    print("- IV Bolus provides immediate relief but risks exceeding the upper therapeutic limit.")
+    print("- IV Infusion safely maintains levels within the therapeutic window.")
+    print(f"- Mg Citrate (F={F_CIT}) reaches therapeutic levels effectively but with a delayed onset (Tmax).")
+    print(f"- Mg Oxide (F={F_OX}) has extremely poor bioavailability and barely affects baseline levels.")
 
 if __name__ == "__main__":
     main()
