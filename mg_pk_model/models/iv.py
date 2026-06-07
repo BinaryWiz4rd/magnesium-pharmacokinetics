@@ -4,17 +4,11 @@ from core.derived import D_IV, VD, K_EL, C_BASE, T_INF
 
 
 def cp_iv_bolus(t: np.ndarray) -> np.ndarray:
-    """
-    One-compartment IV bolus model
-    """
     dC0 = D_IV / VD
     return C_BASE + dC0 * np.exp(-K_EL * t)
 
 
 def cp_iv_infusion(t: np.ndarray) -> np.ndarray:
-    """
-    One-compartment IV infusion model
-    """
     R   = D_IV / T_INF
     Css = R / (K_EL * VD)
 
