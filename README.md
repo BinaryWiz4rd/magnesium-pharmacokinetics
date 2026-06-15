@@ -1,9 +1,12 @@
-# Magnesium PK Simulator
+<div align="center">
+  <h1>Magnesium pharmacokinetics simulator</h1>
+  <p><i> 1C + 2C + population pharmacokinetics via monte carlo simulation dashboard</i></p>
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue)
-![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-red)
-![PK Modeling](https://img.shields.io/badge/PK-Modeling-green)
-![Monte Carlo](https://img.shields.io/badge/Monte%20Carlo-Population%20Simulation-orange)
+[![Python](https://img.shields.io/badge/Python-3.10+-blue)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-red)](https://streamlit.io/)
+[![PK Modeling](https://img.shields.io/badge/PK-Modeling-green)](#)
+[![Monte Carlo](https://img.shields.io/badge/Monte%20Carlo-Population%20Simulation-orange)](#)
+</div>
 
 An interactive Python tool for simulating magnesium concentration-time profiles using one-compartment and two-compartment PK models with Monte Carlo population variability analysis.
 
