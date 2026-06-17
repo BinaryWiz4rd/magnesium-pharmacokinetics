@@ -268,7 +268,7 @@ with tab1:
     fig1, ax1 = plt.subplots(figsize=(10, 4.5))
     fig1.patch.set_alpha(0.0)
     ax1.plot(t, c1_iv_bolus, label="IV bolus", linestyle="--", color="#FF8A80", linewidth=3.5)
-    ax1.plot(t, c1_iv_inf, label=f"IV infusion ({t_inf:.0f} h)", linestyle="-.", color="#FFD180", linewidth=3.5)
+    ax1.plot(t, c1_iv_inf, label=f"IV infusion ({t_inf:.1f} h)", linestyle="-.", color="#FFD180", linewidth=3.5)
     ax1.plot(t, c1_oral_cit, label=f"Oral citrate ({dose_oral_cit:.0f} mg)", color="#80D8FF", linewidth=3.5)
     ax1.plot(t, c1_oral_ox, label=f"Oral oxide ({dose_oral_ox:.0f} mg)", color="#B388FF", linewidth=3.5)
     style_ax(ax1)
@@ -276,7 +276,7 @@ with tab1:
 
     st.markdown("<br><h3 style='text-align:center;'>Key Metrics</h3>", unsafe_allow_html=True)
     metric_cols(
-        ["IV Bolus", f"IV Infusion ({t_inf:.0f} h)", "Mg Citrate", "Mg Oxide"],
+        ["IV Bolus", f"IV Infusion ({t_inf:.1f} h)", "Mg Citrate", "Mg Oxide"],
         [c1_iv_bolus, c1_iv_inf, c1_oral_cit, c1_oral_ox],
     )
 
@@ -285,7 +285,7 @@ with tab1:
         <h4 style="margin-top: 0px; color: #0288D1 !important;">Clinical Analysis - 1-Compartment</h4>
         <ul style="margin-bottom: 0px;">
             <li><b>IV bolus</b> peaks instantly at <b>{np.max(c1_iv_bolus):.3f} mmol/L</b>. If this exceeds the yellow band, transient hypermagnesemia is possible.</li>
-            <li><b>IV infusion</b> ({t_inf:.0f} h) creates a smoother rise and gives the dose more time to distribute.</li>
+            <li><b>IV infusion</b> ({t_inf:.1f} h) creates a smoother rise and gives the dose more time to distribute.</li>
             <li><b>Mg citrate</b> (F = {f_cit:.2f}) produces a stronger oral response than <b>Mg oxide</b> (F = 0.055).</li>
         </ul>
     </div>
@@ -544,6 +544,15 @@ with tab4:
     ax4.set_xlim(0, 48)
     ax4.set_xticks(range(0, 49, 4))
     style_ax(ax4)
+    ax4.legend(
+        loc="upper center",
+        bbox_to_anchor=(0.5, -0.16),
+        ncol=3,
+        frameon=False,
+        labelcolor="#8D6E63",
+        prop={"weight": "bold"},
+    )
+    fig4.subplots_adjust(bottom=0.24)
     st.pyplot(fig4)
 
     st.markdown("""
