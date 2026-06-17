@@ -208,7 +208,11 @@ def sim_2c_oral(d_mmol, f, ka):
 
 def trapezoid_auc(concentration, time, axis=None):
     if hasattr(np, "trapezoid"):
+        if axis is None:
+            return np.trapezoid(concentration, time)
         return np.trapezoid(concentration, time, axis=axis)
+    if axis is None:
+        return np.trapz(concentration, time)
     return np.trapz(concentration, time, axis=axis)
 
 
