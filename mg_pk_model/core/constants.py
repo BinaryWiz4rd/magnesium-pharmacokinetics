@@ -19,3 +19,9 @@ ASSUMPTIONS = {
     "Model type":                  "One-compartment, first-order",
     "F_IV":                         1.0,
 }
+
+TWO_COMP_CONSTANTS = {
+    "Vc (L/kg)":   0.20,   # central volume of distribution
+    "Vp (L/kg)":   0.30,   # peripheral volume of distribution
+    "Q (L/h/kg)":  0.12,   # intercompartmental clearance
+}

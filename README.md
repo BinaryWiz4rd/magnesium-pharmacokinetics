@@ -1,74 +1,134 @@
-# 🧸 Magnesium PK Simulator 🧸
+<div align="center">
+  <h1>Magnesium pharmacokinetics simulator</h1>
+  <p><i> 1C + 2C + population pharmacokinetics via monte carlo simulation dashboard</i></p>
 
-A beautifully designed, interactive Python tool for simulating magnesium concentration-time profiles using a one-compartment model with first-order kinetics. 
+[![Python](https://img.shields.io/badge/Python-3.10+-blue)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-red)](https://streamlit.io/)
+[![PK Modeling](https://img.shields.io/badge/PK-Modeling-green)](#)
+[![Monte Carlo](https://img.shields.io/badge/Monte%20Carlo-Population%20Simulation-orange)](#)
+</div>
 
-<img width="1908" height="858" alt="obraz" src="https://github.com/user-attachments/assets/fba76075-a898-41ec-95de-5d29e82f3755" />
+An interactive Python tool for simulating magnesium concentration-time profiles using one-compartment and two-compartment PK models with Monte Carlo population variability analysis.
 
-This project computes systemic magnesium levels over time based on literature-derived pharmacokinetic (PK) parameters, accounting for baseline endogenous magnesium concentrations. It features a fully interactive web dashboard built with Streamlit, allowing users to adjust patient parameters and dosing regimens in real-time.
+This project combines systemic magnesium levels over time based on literature-derived pharmacokinetic parameters while accounting for endogenous baseline magnesium concentrations. It also has a fully interactive Streamlit dashboard with dedicated tabs for classical 1-compartment simulation, 2-compartment biphasic modeling, and Monte Carlo population analysis.
 
-### Key Features
-* **Interactive Dashboard**: Real-time sliders for Body Weight, Elimination Half-Life, IV Dosing, and Oral Dosing.
-* **Instant Visualizations**: Dynamic concentration-time curves mapping drug levels against the therapeutic window (0.85 - 1.10 mmol/L).
-* **Automated PK Metrics**: Instantly calculates Cmax, Tmax, and AUC for all administration routes.
-* **Clinical Insights**: Generates quick clinical takeaways based on the simulated curves.
+---
 
-##  Supported Models
-* **Intravenous (IV)**: 
-  * **Bolus**: Instantaneous distribution.
-  * **Infusion**: Constant rate infusion over a dynamically adjustable duration.
-* **Oral**: First-order absorption modeling comparing different formulations:
-  * **Magnesium Citrate**: Higher bioavailability (Default F = 0.31, ka = 0.90 h⁻¹).
-  * **Magnesium Oxide**: Lower bioavailability (Default F = 0.055, ka = 0.35 h⁻¹).
+## Features
 
-## Project Structure
-The repository is structured to separate configuration, mathematical models, and the interactive frontend.
+- **1-Compartment model** for IV bolus, IV infusion, oral magnesium citrate, and oral magnesium oxide
+- **2-Compartment model** with configurable central/peripheral distribution and intercompartmental clearance
+- **Monte Carlo population simulation** with inter-individual variability
+- **Real-time parameter adjustment** through an interactive Streamlit dashboard
+- **Automatic PK metric calculation** including Cmax, Tmax, and AUC
+- **CLI runner** for reproducible simulations and figure generation
 
-    Pharmacokinetics/
-    ├── .venv/                      # Virtual environment (recommended)
-    ├── mg_pk_model/                # Core simulation package
-    │   ├── core/                   # Parameters and state configuration
-    │   │   ├── __init__.py
-    │   │   ├── constants.py        # Literature values & patient assumptions
-    │   │   └── derived.py          # Derived PK values (Kel, Vd, CL, Doses in mmol)
-    │   ├── metrics/                # PK metrics calculations (Cmax, AUC, Tmax)
-    │   ├── models/                 # Mathematical PK equations
-    │   │   ├── iv.py               # IV bolus and infusion math
-    │   │   └── oral.py             # Oral absorption math
-    │   ├── visualization/          # Matplotlib plotting scripts
-    │   ├── main.py                 # Static CLI simulation runner 
-    │   └── dashboard.py            # INTERACTIVE STREAMLIT WEB APP
-    ├── mg_real_analysis/           # (WIP) Scripts for analyzing real-world/clinical data
-    ├── .gitignore                  
-    └── README.md                   
+---
+
+## Screenshots
+
+### 1-Compartment Model
+
+IV bolus, IV infusion, oral citrate, and oral oxide simulations with real-time parameter adjustment.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e035a698-af13-4096-9ba7-f185ec97c8d3" width="850">
+</p>
+
+### 2-Compartment Model
+
+Biphasic alpha/beta kinetics with adjustable central volume (Vc), peripheral volume (Vp), and intercompartmental clearance (Q). Includes direct comparison with the 1-compartment model.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/6ef89665-5e6d-4c4e-a784-f7fdaa1b5c4a" width="850">
+</p>
+
+### Monte Carlo Population Analysis
+
+Population variability in body weight, half-life, volume of distribution, bioavailability, and absorption rate constants. Displays 5th, 50th, and 95th percentile concentration bands.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/82c9155e-53dc-40db-9db6-d62456eeb125" width="850">
+</p>
+
+### CLI Output
+
+The standalone CLI runner generates publication-style comparison plots and prints PK metrics directly to the terminal.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/ae107a10-2dea-4f45-b28a-16a61dc04dc4" width="1000">
+</p>
+
+Cmax, Tmax, and AUC are automatically calculated for every simulated scenario.
+
+```text
+1C Model
+IV Bolus Cmax=1.4378 Tmax=0.00 h AUC=57.85
+IV Infusion Cmax=1.4109 Tmax=4.04 h AUC=57.45
+Oral Citrate Cmax=0.8660 Tmax=8.27 h AUC=41.34
+
+2C Model
+IV Bolus Cmax=2.3194 Tmax=0.00 h AUC=57.83
+IV Infusion Cmax=1.5858 Tmax=3.94 h AUC=57.44
+Oral Citrate Cmax=0.9787 Tmax=1.64 h AUC=43.93
+Oral Oxide Cmax=0.8665 Tmax=4.62 h AUC=41.34
+```
+---
 
 ## Requirements
-This project requires Python 3.8+ and relies on NumPy (>= 2.0.0), Matplotlib, and Streamlit. 
 
-Install the required dependencies via pip:
+Python 3.10+ and:
 
-    pip install numpy matplotlib streamlit
+```bash
+pip install numpy matplotlib streamlit
+```
 
-*(Note: NumPy 2.0+ is required for the np.trapezoid function used in AUC calculations).*
+NumPy 2.0+ is required for `np.trapezoid`.
 
-## How to Run It
+---
 
-**Option 1: The Interactive Web Dashboard (Recommended)**
-To launch the interactive GUI with sliders, real-time graphs, and metric calculation, navigate to the mg_pk_model folder and run:
+## How to run?
 
-    streamlit run mg_pk_model/dashboard.py
+### Interactive dashboard (recommended)
 
-This will open a local web server (usually at http://localhost:8501) in your default web browser.
+```bash
+streamlit run mg_pk_model/dashboard.py
+```
 
-**Option 2: The Static CLI Script**
-If you prefer to run a standard static simulation that outputs metrics to the console and saves a .png plot, run:
+### CLI Script
 
-    python main.py
+```bash
+cd mg_pk_model
+python main.py
+```
 
-## Under the Hood: Key Parameters & Assumptions
-The math engine runs on default literature constants defined in core/constants.py, but you can easily modify these dynamically using the dashboard sliders:
+Prints a complete 1C vs 2C metrics table and saves:
 
-* **Patient Weight:** 40 - 120 kg (Default: 70 kg)
-* **Baseline Mg Concentration:** 0.85 mmol/L
-* **Volume of Distribution (Vd):** 0.50 L/kg
-* **Elimination Half-life (t½):** 10 - 50 hours (Default: 30 hours)
-* **Doses:** Fully adjustable via sliders (converted automatically to mmol using the MW of Mg: 24.305 g/mol).
+```text
+pk_simulation_plot.png
+```
+
+---
+
+## Key parameters
+
+| Parameter | Default | Range (Dashboard) |
+|------------|------------|------------|
+| Body weight | 70 kg | 40–120 kg |
+| Elimination t½ | 30 h | 10–50 h |
+| Vd (1-compartment) | 0.50 L/kg | Fixed |
+| Vc (2-compartment central) | 0.20 L/kg | 0.10–0.40 L/kg |
+| Vp (2-compartment peripheral) | 0.30 L/kg | 0.10–0.60 L/kg |
+| Q (intercompartmental) | 0.12 L/h/kg | 0.02–0.50 L/h/kg |
+| IV dose | 500 mg | 100–1000 mg |
+| IV infusion duration | 4 h | 0.5–12 h |
+| Oral dose (citrate / oxide) | 300 mg | 100–1000 mg |
+| Mg citrate bioavailability | 0.31 | 0.10–0.50 |
+| Therapeutic window | 0.85–1.10 mmol/L | Fixed |
+| Baseline plasma Mg | 0.85 mmol/L | Fixed |
+
+---
+
+## Disclaimer
+
+This project is intended for educational, modeling, and research purposes only. It is not intended for clinical decision-making, patient treatment, or medical advice.
