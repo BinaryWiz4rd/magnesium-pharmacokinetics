@@ -19,6 +19,7 @@ This project combines systemic magnesium levels over time based on literature-de
 - **1-Compartment model** for IV bolus, IV infusion, oral magnesium citrate, and oral magnesium oxide
 - **2-Compartment model** with configurable central/peripheral distribution and intercompartmental clearance
 - **Monte Carlo population simulation** with inter-individual variability
+- **Genetic Renal Wasting Analysis** for inherited tubulopathies affecting renal magnesium handling
 - **Real-time parameter adjustment** through an interactive Streamlit dashboard
 - **Automatic PK metric calculation** including Cmax, Tmax, and AUC
 - **CLI runner** for reproducible simulations and figure generation
@@ -49,6 +50,38 @@ Population variability in body weight, half-life, volume of distribution, bioava
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/82c9155e-53dc-40db-9db6-d62456eeb125" width="850">
+</p>
+
+### Genetic Renal Wasting Analysis
+
+This section was added as a dedicated Streamlit dashboard tab for analyzing magnesium pharmacokinetics in inherited renal magnesium wasting disorders. It compares a healthy reference profile with Gitelman syndrome, Bartter syndrome type 4, EAST/SeSAME syndrome, and CNNM2-related renal magnesium wasting.
+
+The model uses disease-specific baseline magnesium concentrations and renal wasting factors in a transparent 2-compartment simulation. It supports IV bolus, IV infusion, oral magnesium citrate, and oral magnesium oxide, so the user can compare how different routes affect peak concentration, therapeutic-window exposure, and return toward a pathological baseline.
+
+Key assumptions in this tab:
+
+- Disease-specific baseline plasma magnesium levels
+- Increased renal magnesium elimination for each tubulopathy
+- Route-specific absorption and bioavailability for oral citrate and oxide
+- 48-hour concentration-time profiling
+- Therapeutic window overlay at 0.85-1.10 mmol/L
+
+#### Route comparison examples
+
+<p align="center">
+  <img src="docs/images/renal_wasting/iv_bolus.png" width="850" alt="Genetic renal wasting IV bolus simulation">
+</p>
+
+<p align="center">
+  <img src="docs/images/renal_wasting/iv_infusion.png" width="850" alt="Genetic renal wasting IV infusion simulation">
+</p>
+
+<p align="center">
+  <img src="docs/images/renal_wasting/oral_citrate.png" width="850" alt="Genetic renal wasting oral citrate simulation">
+</p>
+
+<p align="center">
+  <img src="docs/images/renal_wasting/oral_oxide.png" width="850" alt="Genetic renal wasting oral oxide simulation">
 </p>
 
 ### CLI Output
@@ -126,6 +159,16 @@ pk_simulation_plot.png
 | Mg citrate bioavailability | 0.31 | 0.10–0.50 |
 | Therapeutic window | 0.85–1.10 mmol/L | Fixed |
 | Baseline plasma Mg | 0.85 mmol/L | Fixed |
+
+### Genetic renal wasting defaults
+
+| Condition | Baseline Mg | Renal wasting factor |
+|------------|------------|------------|
+| Healthy | 0.85 mmol/L | 1.0 |
+| Gitelman syndrome | 0.55 mmol/L | 2.5 |
+| Bartter syndrome type 4 | 0.45 mmol/L | 7.0 |
+| EAST/SeSAME syndrome | 0.50 mmol/L | 5.0 |
+| CNNM2-related renal wasting | 0.40 mmol/L | 6.0 |
 
 ---
 
