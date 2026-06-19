@@ -42,27 +42,21 @@ And a lot more 🧸
 ## Screenshots
 
 ### 1-Compartment Model
-
 IV bolus, IV infusion, oral citrate, and oral oxide simulations with real-time parameter adjustment.
-
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/e035a698-af13-4096-9ba7-f185ec97c8d3" width="850">
+  <img src="docs/images/models/1_compartment.png" width="850" alt="1-Compartment Magnesium Simulation">
 </p>
 
 ### 2-Compartment Model
-
-Biphasic alpha/beta kinetics with adjustable central volume (Vc), peripheral volume (Vp), and intercompartmental clearance (Q). Includes direct comparison with the 1-compartment model.
-
+Biphasic alpha/beta kinetics with adjustable central volume ($V_c$), peripheral volume ($V_p$), and intercompartmental clearance ($Q$). Includes direct numerical comparison with the 1-compartment model.
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/6ef89665-5e6d-4c4e-a784-f7fdaa1b5c4a" width="850">
+  <img src="docs/images/models/2_compartment.png" width="850" alt="2-Compartment Biphasic Magnesium Simulation">
 </p>
 
 ### Monte Carlo Population Analysis
-
-Population variability in body weight, half-life, volume of distribution, bioavailability, and absorption rate constants. Displays 5th, 50th, and 95th percentile concentration bands.
-
+Population variability metrics accounting for individual variations in body weight, drug half-life, total volume of distribution, physiological bioavailability, and absorption rate constants ($K_a$). Displays the 5th, 50th, and 95th percentile concentration bands over time.
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/82c9155e-53dc-40db-9db6-d62456eeb125" width="850">
+  <img src="docs/images/population/monte_carlo.png" width="850" alt="Monte Carlo Population Simulation">
 </p>
 
 ### Genetic Renal Wasting Analysis
