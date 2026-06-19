@@ -14,6 +14,19 @@ This project combines systemic magnesium levels over time based on literature-de
 
 ---
 
+## Project report/documentation & medical background
+This simulator is based on a detailed medical and mathematical report that explains the theory behind the code. If you want to see the equations and clinical research used to build this tool, you can check it out here:
+
+**[Project report (PDF)](docs/Mg_PK_LabReport.pdf)** *(Note: The file is a large binary PDF. Click the link and download to open it).*
+
+Inside the report, you will find:
+- **The math behind the models:** The exact systems of differential equations used to calculate how magnesium moves between the blood and tissues ($1\text{-compartment}$ vs $2\text{-compartment}$ modeling).
+- **Genetic kidney disorders:** A breakdown of how specific mutations (like Gitelman, Bartter, EAST/SeSAME, and CNNM2) cause the kidneys to waste magnesium, which explains the baseline drops in the simulator.
+
+And a lot more 🧸
+
+---
+
 ## Features
 
 - **1-Compartment model** for IV bolus, IV infusion, oral magnesium citrate, and oral magnesium oxide
